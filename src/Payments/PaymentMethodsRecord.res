@@ -832,10 +832,13 @@ let getPaymentMethodFields = (
   ~localeString,
   ~isSavedCardFlow=false,
   ~isAllStoredCardsHaveName=false,
+  ~alwaysShowBillingDetails=false,
 ) => {
   let isAnyBillingDetailEmpty = requiredFields->getIsAnyBillingDetailEmpty
   let requiredFieldsArr = requiredFields->Array.map(requiredField => {
-    let isShowBillingField = getIsBillingField(requiredField.field_type) && isAnyBillingDetailEmpty
+    let isShowBillingField =
+      getIsBillingField(requiredField.field_type) &&
+        (isAnyBillingDetailEmpty || alwaysShowBillingDetails)
     if requiredField.value === "" || isShowBillingField {
       if (
         isSavedCardFlow &&
