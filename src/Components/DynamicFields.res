@@ -46,7 +46,7 @@ let make = (
     None
   }, [paymentMethodType])
 
-  let {billingAddress} = Recoil.useRecoilValueFromAtom(optionAtom)
+  let {billingAddress, alwaysShowBillingDetails} = Recoil.useRecoilValueFromAtom(optionAtom)
 
   //<...>//
   let paymentMethodTypes = PaymentUtils.usePaymentMethodTypeFromList(
@@ -137,11 +137,18 @@ let make = (
       ~isSavedCardFlow,
       ~isAllStoredCardsHaveName,
       ~localeString,
+      ~alwaysShowBillingDetails,
     )
     ->updateDynamicFields(billingAddress, isSaveDetailsWithClickToPay, clickToPayConfig)
     ->Belt.SortArray.stableSortBy(PaymentMethodsRecord.sortPaymentMethodFields)
     //<...>//
-  }, (requiredFields, isAllStoredCardsHaveName, isSavedCardFlow, isSaveDetailsWithClickToPay))
+  }, (
+    requiredFields,
+    isAllStoredCardsHaveName,
+    isSavedCardFlow,
+    isSaveDetailsWithClickToPay,
+    alwaysShowBillingDetails,
+  ))
 
   let isSpacedInnerLayout = config.appearance.innerLayout === Spaced
 
